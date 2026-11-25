@@ -1,0 +1,86 @@
+{
+  "description": "Zestaw przykładów z oczekiwanymi uwagami (ground truth) do późniejszej oceny trafności i analizy fałszywych alarmów. Pliki 09 i 10 są celowo poprawne - każda uwaga do nich to fałszywy alarm (10 zawiera wzorce, które powierzchownie wyglądają podejrzanie).",
+  "snippets": [
+    {
+      "file": "01_sql_injection.py",
+      "expected": [
+        {"category": "security", "severity": "critical", "line_start": 7, "line_end": 7,
+         "evidence": "\"SELECT id, username, email FROM users WHERE username = '\" + username + \"'\"",
+         "note": "SQL injection przez konkatenację danych wejściowych."}
+      ]
+    },
+    {
+      "file": "02_off_by_one.py",
+      "expected": [
+        {"category": "bug", "severity": "high", "line_start": 6, "line_end": 6,
+         "evidence": "range(len(values) - window)",
+         "note": "Pomija ostatnie pełne okno; powinno być len(values) - window + 1."}
+      ]
+    },
+    {
+      "file": "03_mutable_default.py",
+      "expected": [
+        {"category": "bug", "severity": "high", "line_start": 5, "line_end": 5,
+         "evidence": "events: list[str] = []",
+         "note": "Mutowalna wartość domyślna współdzielona między instancjami EventLog."}
+      ]
+    },
+    {
+      "file": "04_quadratic_dedupe.py",
+      "expected": [
+        {"category": "performance", "severity": "medium", "line_start": 6, "line_end": 6,
+         "evidence": "if email not in seen:",
+         "note": "Wyszukiwanie w liście -> O(n^2) dla ~10^6 rekordów; użyć zbioru pomocniczego."}
+      ]
+    },
+    {
+      "file": "05_secrets_tls.py",
+      "expected": [
+        {"category": "security", "severity": "critical", "line_start": 3, "line_end": 3,
+         "evidence": "API_KEY = \"AKIA4EXAMPLE7Q2ZP9XKD3\"",
+         "note": "Zahardkodowany klucz API."},
+        {"category": "security", "severity": "high", "line_start": 12, "line_end": 12,
+         "evidence": "verify=False",
+         "note": "Wyłączona weryfikacja TLS przy płatnościach."}
+      ]
+    },
+    {
+      "file": "06_async_foreach.js",
+      "expected": [
+        {"category": "bug", "severity": "high", "line_start": 5, "line_end": 5,
+         "evidence": "paths.forEach(async (p) => {",
+         "note": "forEach nie czeka na async callback; funkcja zwraca pustą tablicę."}
+      ]
+    },
+    {
+      "file": "07_cryptic_swallow.py",
+      "expected": [
+        {"category": "bug", "severity": "medium", "line_start": 10, "line_end": 11,
+         "evidence": "except:", "alt_categories": ["readability"],
+         "note": "Gołe except: pass połyka wszystkie wyjątki (także KeyboardInterrupt)."},
+        {"category": "readability", "severity": "medium", "line_start": 4, "line_end": 9,
+         "evidence": "def p(d, f):",
+         "note": "Kryptyczne nazwy i magiczne liczby (86400, 1.23, x[2])."}
+      ]
+    },
+    {
+      "file": "08_weak_test.py",
+      "expected": [
+        {"category": "testing", "severity": "medium", "line_start": 13, "line_end": 13,
+         "evidence": "self.assertTrue(result)",
+         "note": "Asercja nie sprawdza wartości (80.0); przejdzie dla każdego niezerowego wyniku."},
+        {"category": "testing", "severity": "high", "line_start": 15, "line_end": 19,
+         "evidence": "except ValueError:",
+         "note": "Test przechodzi także gdy wyjątek nie zostanie rzucony; użyć assertRaises."}
+      ]
+    },
+    {
+      "file": "09_clean_utils.py",
+      "expected": []
+    },
+    {
+      "file": "10_tricky_clean.py",
+      "expected": []
+    }
+  ]
+}

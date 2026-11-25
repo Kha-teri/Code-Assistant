@@ -1,0 +1,16 @@
+# Sekrety
+.env
+
+# Środowisko
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Wyniki uruchomień
+outputs/
+*.log
+
+# IDE
+.idea/
+.vscode/

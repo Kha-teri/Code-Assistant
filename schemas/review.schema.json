@@ -1,0 +1,132 @@
+{
+  "$defs": {
+    "Category": {
+      "enum": [
+        "bug",
+        "readability",
+        "performance",
+        "testing",
+        "security"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "Finding": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Identyfikator uwagi w obrębie recenzji, np. 'F1'.",
+          "pattern": "^F\\d+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/Category"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "title": {
+          "description": "Krótki tytuł problemu.",
+          "maxLength": 160,
+          "minLength": 3,
+          "title": "Title",
+          "type": "string"
+        },
+        "line_start": {
+          "description": "Pierwsza linia problemu (numeracja od 1).",
+          "minimum": 1,
+          "title": "Line Start",
+          "type": "integer"
+        },
+        "line_end": {
+          "description": "Ostatnia linia problemu (włącznie).",
+          "minimum": 1,
+          "title": "Line End",
+          "type": "integer"
+        },
+        "evidence": {
+          "description": "Dosłowny cytat z analizowanego kodu (bez numerów linii), który dowodzi problemu.",
+          "minLength": 1,
+          "title": "Evidence",
+          "type": "string"
+        },
+        "explanation": {
+          "description": "Uzasadnienie: dlaczego to jest problem i jakie ma skutki.",
+          "minLength": 10,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "suggestion": {
+          "description": "Konkretna propozycja poprawki.",
+          "minLength": 3,
+          "title": "Suggestion",
+          "type": "string"
+        },
+        "confidence": {
+          "description": "Pewność recenzenta, że to prawdziwy problem (0-1).",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "category",
+        "severity",
+        "title",
+        "line_start",
+        "line_end",
+        "evidence",
+        "explanation",
+        "suggestion",
+        "confidence"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "title": "Severity",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "file": {
+      "description": "Ścieżka recenzowanego pliku.",
+      "title": "File",
+      "type": "string"
+    },
+    "summary": {
+      "description": "Ogólna ocena pliku w 1-3 zdaniach.",
+      "minLength": 10,
+      "title": "Summary",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "file",
+    "summary"
+  ],
+  "title": "Review",
+  "type": "object"
+}
