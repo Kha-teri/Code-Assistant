@@ -14,7 +14,7 @@ MANIFEST = json.loads((SNIPPETS / "manifest.json").read_text(encoding="utf-8"))
 def test_ten_snippets_all_present():
     files = [s["file"] for s in MANIFEST["snippets"]]
     assert len(files) == 10 == len(set(files))
-    on_disk = {p.name for p in SNIPPETS.iterdir() if p.name != "manifest.json"}
+    on_disk = {p.name for p in SNIPPETS.iterdir() if p.is_file() and p.name != "manifest.json"}
     assert set(files) == on_disk
 
 
